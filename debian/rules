@@ -4,5 +4,11 @@
 	dh $@ --without=makefile
 
 override_dh_auto_build:
-	cmake .
+	cmake -DCMAKE_INSTALL_PREFIX=/usr .
 	make
+
+override_dh_install:
+	install -D -m 0755 src/getcutout debian/tmp/usr/bin/getcutout
+	dh_install
+
+override_dh_shlibdeps:

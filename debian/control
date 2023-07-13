@@ -15,7 +15,6 @@ Package: liboverlay-reader
 Section: libs
 Architecture: any
 Depends: ${misc:Depends},
-         ${shlibs:Depends},
 Description: Library to read android runtime overlays 
  Library to read android runtime overlays.
 
@@ -25,7 +24,6 @@ Architecture: any
 Multi-Arch: same
 Depends: liboverlay-reader (= ${binary:Version}),
          ${misc:Depends},
-         ${shlibs:Depends},
 Description: Library to read android runtime overlays.
  Library to read android runtime overlays.
  .
@@ -36,7 +34,13 @@ Package: getoverlay
 Section: admin
 Architecture: any
 Depends: ${misc:Depends},
-         ${shlibs:Depends},
          liboverlay-reader,
 Description: Tools to read android runtime overlays.
  Tools to read android runtime overlays. 
+
+Package: getcutout
+Section: admin
+Architecture: any
+Depends: ${misc:Depends},
+         getoverlay,
+Description: Tool to get info about display cutout for usage in Phosh
