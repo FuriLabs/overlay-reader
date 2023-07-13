@@ -1,14 +1,15 @@
 Source: overlay-reader
 Section: libs
 Priority: optional
-Build-Depends: cmake (>= 2.8.10),
-               debhelper (>= 9),
+Build-Depends: cmake,
+               debhelper,
                pkg-config,
                libboost-filesystem-dev,
-               libzip-dev
-Maintainer: Marius Gripsgard <marius@ubports.com>
-Standards-Version: 3.9.5
-Homepage: https://github.com/erfanoabdi/overlay-reader
+               libzip-dev,
+               python3-svg.path,
+Maintainer: Bardia Moshiri <fakeshell@bardia.tech>
+Standards-Version: 4.5.0
+Homepage: https://github.com/droidian/overlay-reader
 
 Package: liboverlay-reader
 Section: libs

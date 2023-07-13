@@ -1,5 +1,19 @@
-overlay-reader (0.1.0) xenial; urgency=medium
+overlay-reader (0.1.0+git20200519172631.a464b4e.release) trixie; urgency=medium
 
-  * initial release
+  * Setup gitignore
+  * Add 'src/arcsParser/' from commit '8cb972c759559228f0986abae4cc6fc6c35843a0'
+  * Add 'src/axmlParser/' from commit 'a604fc32441b22e63e9971820e64d222fac8ac61'
+  * Setup cmake
+  * AxmlParser: Fix multipe parsings
+  * Add up parsers in overlay-reader
+  * Define liboverlay-reader on cmake
+  * Setup debian packing
+  * Include string header for strcmp on getoverlay
+  * Extract arsc to tmp file and parse
+  * Add libzip1.0 compatibility
+  * Set -fPIC flag
+  * Fix header installing
+  * Add pkgconfig configs
 
- -- Erfan Abdi <erfangplus@gmail.com>  Tue May 19 18:50:15 2020 +0430
+ -- Erfan Abdi <erfangplus@gmail.com>  Wed, 20 May 2020 01:44:31 +0418
+

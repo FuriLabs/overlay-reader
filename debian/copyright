@@ -1,10 +1,13 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
-Upstream-Name: deviceinfo
-Upstream-Contact: Marius Gripsgard <marius@ubports.com>
-Source: https://github.com/ubports/deviceinfo
+Upstream-Name: overlay-reader
+Source: https://github.com/droidian/overlay-reader
 
 Files: *
-Copyright: 2019 UBports foundation, Marius Gripsgard <marius@ubports.com>
+Copyright: 2023 Erfan Abdi <erfangplus@gmail.com>
+License: GPL-3
+
+Files: getcutout
+Copyright: 2023 Bardia Moshiri <fakeshell@bardia.tech>
 License: GPL-3
 
 License: GPL-3

@@ -1,4 +1,8 @@
 #!/usr/bin/make -f
 
 %:
-	dh $@ --parallel --buildsystem cmake --fail-missing
+	dh $@ --without=makefile
+
+override_dh_auto_build:
+	cmake .
+	make
