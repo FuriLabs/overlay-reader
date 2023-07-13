@@ -34,9 +34,9 @@ int main(int argc, char *argv[]) {
         subtype = "";
 
 	if (target)
-		ret = overlayreader::GetConfigByTarget(target, config, subtype, "Faild to get value");
+		ret = overlayreader::GetConfigByTarget(target, config, subtype, "Failed to get value");
 	else if (path)
-		ret = overlayreader::GetConfigByPath(path, config, subtype, "Faild to get value");
+		ret = overlayreader::GetConfigByPath(path, config, subtype, "Failed to get value");
 
 	printf("%s\n", ret.c_str());
 	return 0;
