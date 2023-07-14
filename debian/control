@@ -44,4 +44,5 @@ Section: admin
 Architecture: any
 Depends: ${misc:Depends},
          getoverlay,
+         libminui0,
 Description: Tool to get info about display cutout for usage in Phosh
