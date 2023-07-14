@@ -8,7 +8,12 @@ import re
 import json
 import fnmatch
 import subprocess
+import argparse
 from svg.path import Path, Line, Arc, CubicBezier, QuadraticBezier, parse_path
+
+parser = argparse.ArgumentParser(description="Create JSON representation of device cutouts and border radius.")
+parser.add_argument("-o", "--output", required=True, help="Path to the output JSON file")
+args = parser.parse_args()
 
 if os.getuid() != 0:
     print("must run as root, exiting")
@@ -169,7 +174,7 @@ if rro_file and os.path.exists(rro_file):
     if cutout is not None:
         json_obj["cutouts"] = [{"name": "notch", "path": cutout}]
 
-    with open('output.json', 'w') as json_file:
+    with open(args.output, 'w') as json_file:
         json.dump(json_obj, json_file, indent=4)
 
 else:
