@@ -1,2 +1,3 @@
 usr/bin/getcutout
 usr/bin/minui-getres
+etc/systemd/system/phosh.service.d/50-notch.conf
