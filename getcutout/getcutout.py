@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# SPDX-License-Identifier: GPL-2.0-only
+# Copyright (C) 2023 Bardia Moshiri <fakeshell@bardia.tech>
 
 import os
 import sys
@@ -11,6 +13,28 @@ from svg.path import Path, Line, Arc, CubicBezier, QuadraticBezier, parse_path
 if os.getuid() != 0:
     print("must run as root, exiting")
     sys.exit(1)
+
+def read_screen_size():
+    height_file = '/var/lib/droidian/phosh-notch/height'
+    width_file = '/var/lib/droidian/phosh-notch/width'
+
+    try:
+        with open(height_file, 'r') as f:
+            height = int(f.read().strip())
+    except Exception as e:
+        print(f"Failed to read height from {height_file}, Error: {str(e)}")
+        sys.exit(1)
+
+    try:
+        with open(width_file, 'r') as f:
+            width = int(f.read().strip())
+    except Exception as e:
+        print(f"Failed to read width from {width_file}, Error: {str(e)}")
+        sys.exit(1)
+
+    return height, width
+
+height, width = read_screen_size()
 
 def parse_svg_string(svg_string, width):
     target_x = width / 2
@@ -26,7 +50,7 @@ def parse_svg_string(svg_string, width):
 
 def reposition_svg(svg_string, width):
     svg_string, target_x = parse_svg_string(svg_string, width)
-    # Extract the d attribute from the path
+
     path_d_match = re.search('M(.*?)Z', svg_string)
     if path_d_match is None:
         print('No matching path found in SVG string')
@@ -35,7 +59,6 @@ def reposition_svg(svg_string, width):
     path_d = path_d_match.group(0)
     path = parse_path(path_d)
 
-    # Compute the current center
     x_coordinates = [point.real for segment in path for point in [segment.start, segment.end]]
 
     min_x, max_x = min(x_coordinates), max(x_coordinates)
@@ -44,7 +67,6 @@ def reposition_svg(svg_string, width):
     new_path = Path()
 
     for segment in path:
-        # Create a new segment of the same type
         if isinstance(segment, Line):
             new_segment = Line(segment.start + complex(shift_distance, 0), segment.end + complex(shift_distance, 0))
         elif isinstance(segment, CubicBezier):
@@ -130,19 +152,17 @@ if rro_file and os.path.exists(rro_file):
     if os.path.exists(rro_file):
         cutout = get_cutout(rro_file)
         if cutout is not None:
-            cutout = reposition_svg(cutout, 1080)
+            cutout = reposition_svg(cutout, width)
 
     if radius is None and cutout is None:
         print("Device does not have a display cutout or a specified border radius.")
         sys.exit(0)
 
     json_obj = {
-        "name": f"{manufacturer} {model}"
+        "name": f"{manufacturer} {model}",
+        "x-res": width,
+        "y-res": height
     }
-
-    # "x-res": 1080,
-    # "y-res": 2340
-    # these can be added later if needed but it seems to work fine without it
 
     if radius is not None:
         json_obj["border-radius"] = radius
