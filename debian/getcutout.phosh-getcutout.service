@@ -1,12 +1,12 @@
 [Unit]
-Description=generate the file needed for phosh cutout
-After=android-mount.service local-fs.target
+Description=generate the json file needed for phosh cutout
+After=minui-getres.service
 Before=phosh.service
 Wants=android-mount.service
 
 [Service]
 Type=oneshot
-ExecStart=-/bin/sh -c 'getcutout -o /var/lib/droidian/phosh-notch/$(sed -z s/$// /sys/firmware/devicetree/base/compatible | head -n 1).json'
+ExecStart=-/bin/sh -c "getcutout -o /var/lib/droidian/phosh-notch/$(sed -z s/$// /sys/firmware/devicetree/base/compatible | head -n 1).json"
 
 [Install]
 WantedBy=graphical.target
