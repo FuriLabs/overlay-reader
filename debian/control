@@ -6,7 +6,6 @@ Build-Depends: cmake,
                pkg-config,
                libboost-filesystem-dev,
                libzip-dev,
-               python3-svg.path,
                libminui-dev,
 Maintainer: Bardia Moshiri <fakeshell@bardia.tech>
 Standards-Version: 4.5.0
@@ -16,6 +15,9 @@ Package: liboverlay-reader
 Section: libs
 Architecture: any
 Depends: ${misc:Depends},
+         libzip4,
+         libboost-filesystem1.74.0,
+         libboost-filesystem1.81.0,
 Description: Library to read android runtime overlays 
  Library to read android runtime overlays.
 
@@ -45,4 +47,5 @@ Architecture: any
 Depends: ${misc:Depends},
          getoverlay,
          libminui0,
+         python3-svg.path,
 Description: Tool to get info about display cutout for usage in Phosh
