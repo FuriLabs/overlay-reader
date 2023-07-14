@@ -4,6 +4,7 @@ import os
 import sys
 import re
 import json
+import fnmatch
 import subprocess
 from svg.path import Path, Line, Arc, CubicBezier, QuadraticBezier, parse_path
 
@@ -26,8 +27,12 @@ def parse_svg_string(svg_string, width):
 def reposition_svg(svg_string, width):
     svg_string, target_x = parse_svg_string(svg_string, width)
     # Extract the d attribute from the path
-    path_d = re.search('M(.*?)Z', svg_string).group(0)
+    path_d_match = re.search('M(.*?)Z', svg_string)
+    if path_d_match is None:
+        print('No matching path found in SVG string')
+        return None
 
+    path_d = path_d_match.group(0)
     path = parse_path(path_d)
 
     # Compute the current center
@@ -65,10 +70,29 @@ def get_cutout(rro_file):
     command = ['getoverlay', '-p', rro_file, '-c', 'config_mainBuiltInDisplayCutout']
     cutout_bytes = subprocess.check_output(command)
     cutout = cutout_bytes.decode('utf-8', 'ignore').strip()
-    if "Faild to get value" in cutout:
+    if "Failed to get value" in cutout:
         return None
 
     return cutout
+
+def find_apk_with_properties(root_dir):
+    for root, dirs, files in os.walk(root_dir):
+        dirs[:] = [d for d in dirs if not 'emulation' in d.lower()]
+        files = [f for f in files if not 'emulation' in f.lower()]
+        for filename in files:
+            if filename.endswith('.apk'):
+                rro_file = os.path.join(root, filename)
+                radius = os.popen(f'getoverlay -p {rro_file} -c rounded_corner_radius_top').read().strip()
+                if "Failed to get value" in radius:
+                    continue
+
+                cutout = get_cutout(rro_file)
+                if cutout is None:
+                    continue
+
+                return rro_file
+
+    return None
 
 prop_files = [
     '/var/lib/lxc/android/rootfs/vendor/build.prop',
@@ -90,17 +114,7 @@ manufacturer = extract_value_from_prop(prop_file, 'ro.product.vendor.manufacture
 model = extract_value_from_prop(prop_file, 'ro.product.vendor.model')
 apiver = extract_value_from_prop(prop_file, 'ro.vendor.build.version.sdk')
 
-files = [
-    '/vendor/overlay/framework-res__auto_generated_rro.apk',
-    '/vendor/overlay/framework-res__auto_generated_rro_vendor.apk',
-    '/vendor/overlay/DevicesAndroidOverlay.apk'
-]
-
-rro_file = None
-for file in files:
-    if os.path.exists(file):
-        rro_file = file
-        break
+rro_file = find_apk_with_properties('/vendor/overlay')
 
 if rro_file is None:
     print("no valid files found, exiting")
@@ -108,7 +122,7 @@ if rro_file is None:
 
 if rro_file and os.path.exists(rro_file):
     radius = os.popen(f'getoverlay -p {rro_file} -c rounded_corner_radius_top').read().strip()
-    if "Faild to get value" not in radius:
+    if "Failed to get value" not in radius:
         radius = int(radius.rstrip('px').rstrip('dp'))
     else:
         radius = None
@@ -126,9 +140,9 @@ if rro_file and os.path.exists(rro_file):
         "name": f"{manufacturer} {model}"
     }
 
-# "x-res": 1080,
-# "y-res": 2340
-# these can be added later of if needed but it seems to work fine without it
+    # "x-res": 1080,
+    # "y-res": 2340
+    # these can be added later if needed but it seems to work fine without it
 
     if radius is not None:
         json_obj["border-radius"] = radius
@@ -137,6 +151,7 @@ if rro_file and os.path.exists(rro_file):
 
     with open('output.json', 'w') as json_file:
         json.dump(json_obj, json_file, indent=4)
+
 else:
     print(f"{rro_file} does not exist, exiting")
     sys.exit(0)
