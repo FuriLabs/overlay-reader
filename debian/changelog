@@ -1,8 +1,12 @@
-overlay-reader (0.1.0+git20200519172631.a464b4e.release+git20230713190803.98b4668.release) trixie; urgency=medium
+overlay-reader (0.1.0+git20200519172631.a464b4e.release+git20230713190803.98b4668.release+git20230713234631.5ce3777.release) trixie; urgency=medium
 
   [ Bardia Moshiri ]
   * debian: fix packaging
   * src: fix a small typo
+  * add getcutout
+  * getcutout: read all files in /vendor/overlay
+  * rename getcutout to getcutout.py
+  * add minui-getres
 
   [ Erfan Abdi ]
   * Setup gitignore
@@ -20,5 +24,5 @@ overlay-reader (0.1.0+git20200519172631.a464b4e.release+git20230713190803.98b466
   * Fix header installing
   * Add pkgconfig configs
 
- -- Bardia Moshiri <fakeshell@bardia.tech>  Thu, 13 Jul 2023 19:08:03 -0400
+ -- Bardia Moshiri <fakeshell@bardia.tech>  Thu, 13 Jul 2023 23:46:31 -0400
 
