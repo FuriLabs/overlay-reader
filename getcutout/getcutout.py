@@ -56,7 +56,16 @@ def parse_svg_string(svg_string, width):
 def reposition_svg(svg_string, width):
     svg_string, target_x = parse_svg_string(svg_string, width)
 
-    path_d_match = re.search('M(.*?)Z', svg_string)
+    m_position = svg_string.find('M')
+    if m_position == -1:
+        m_position = svg_string.find('m')
+
+    # If 'M' or 'm' is found, extract the substring from that position onwards
+    if m_position != -1:
+        svg_string = svg_string[m_position:]
+
+    path_d_match = re.search('M(.*?)Z', svg_string, re.IGNORECASE)
+
     if path_d_match is None:
         print('No matching path found in SVG string')
         return None
