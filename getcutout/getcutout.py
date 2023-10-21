@@ -106,6 +106,7 @@ def get_cutout(rro_file):
     command = ['getoverlay', '-p', rro_file, '-c', 'config_mainBuiltInDisplayCutout']
     cutout_bytes = subprocess.check_output(command)
     cutout = cutout_bytes.decode('utf-8', 'ignore').strip()
+
     if "Failed to get value" in cutout:
         return None
 
@@ -118,10 +119,12 @@ def find_apk_with_properties(root_dir):
         for filename in files:
             if filename.endswith('.apk'):
                 rro_file = os.path.join(root, filename)
-                radius = os.popen(f'getoverlay -p {rro_file} -c rounded_corner_radius_top').read().strip()
-                if "Failed to get value" in radius:
+                cutout_test = os.popen(f'getoverlay -p {rro_file} -c config_mainBuiltInDisplayCutout').read().strip()
+
+                if "Failed to get value" in cutout_test:
                     continue
 
+                # get the cutout again as the other function also cleans it
                 cutout = get_cutout(rro_file)
                 if cutout is None:
                     continue
