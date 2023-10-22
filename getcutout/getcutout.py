@@ -119,7 +119,8 @@ def find_apk_with_properties(root_dir):
         for filename in files:
             if filename.endswith('.apk'):
                 rro_file = os.path.join(root, filename)
-                cutout_test = os.popen(f'getoverlay -p {rro_file} -c config_mainBuiltInDisplayCutout').read().strip()
+                cutout_test = subprocess.check_output(['getoverlay', '-p', rro_file, '-c', 'config_mainBuiltInDisplayCutout']).decode('utf-8', 'ignore').strip()
+                # decode to utf-8 and ignore anything we can't use, overlay-reader might return useless characters ^^
 
                 if "Failed to get value" in cutout_test:
                     continue
