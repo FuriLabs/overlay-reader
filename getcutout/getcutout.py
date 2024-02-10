@@ -87,8 +87,6 @@ def reposition_svg(svg_string, width):
             new_segment = CubicBezier(segment.start + complex(shift_distance, 0), segment.control1 + complex(shift_distance, 0), segment.control2 + complex(shift_distance, 0), segment.end + complex(shift_distance, 0))
         elif isinstance(segment, QuadraticBezier):
             new_segment = QuadraticBezier(segment.start + complex(shift_distance, 0), segment.control + complex(shift_distance, 0), segment.end + complex(shift_distance, 0))
-        elif isinstance(segment, Arc):
-            new_segment = Arc(segment.start + complex(shift_distance, 0), segment.radius, segment.rotation, segment.large_arc, segment.sweep, segment.end + complex(shift_distance, 0))
         else:
             continue
 
