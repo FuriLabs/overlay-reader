@@ -13,7 +13,7 @@ override_dh_auto_install:
 
 override_dh_install:
 	install -D -m 0755 getcutout/getcutout.py debian/tmp/usr/bin/getcutout
-	install -D -m 0755 minui-getres debian/tmp/usr/bin/minui-getres
+	install -D -m 0755 minui-getres debian/tmp/usr/libexec/minui-getres
 	install -D -m 0644 getcutout/50-notch.conf debian/tmp/usr/lib/systemd/system/phosh.service.d/50-notch.conf
 	dh_install
 

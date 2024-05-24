@@ -6,7 +6,7 @@ Wants=android-mount.service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/minui-getres
+ExecStart=/usr/libexec/minui-getres
 
 [Install]
 RequiredBy=local-fs.target
