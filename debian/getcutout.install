@@ -1,3 +1,5 @@
 usr/bin/getcutout
 usr/libexec/minui-getres
 usr/lib/systemd/system/phosh.service.d/50-notch.conf
+runonce/script/getcutout /usr/share/runonce/scripts/
+runonce/target/getcutout /usr/share/runonce/targets/
