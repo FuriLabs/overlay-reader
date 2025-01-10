@@ -1,13 +1,14 @@
 Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: overlay-reader
-Source: https://github.com/droidian/overlay-reader
+Source: https://github.com/furilabs/overlay-reader
 
 Files: *
 Copyright: 2023 Erfan Abdi <erfangplus@gmail.com>
+           2025 Bardia Moshiri <fakeshell@bardia.tech>
 License: GPL-3
 
 Files: getcutout/
-Copyright: 2023 Bardia Moshiri <fakeshell@bardia.tech>
+Copyright: 2025 Bardia Moshiri <fakeshell@bardia.tech>
 License: GPL-2.0-only
 
 License: GPL-3
